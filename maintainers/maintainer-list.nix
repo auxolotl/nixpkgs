@@ -3018,6 +3018,11 @@
     githubId = 37375448;
     name = "Buildit";
   };
+  buurro = {
+    github = "buurro";
+    githubId = 9320677;
+    name = "Marco Burro";
+  };
   bwc9876 = {
     email = "bwc9876@gmail.com";
     github = "Bwc9876";
