@@ -968,6 +968,7 @@ let
     "TIN"
     "cfdnakit"
     "CaDrA"
+    "GNOSIS"
     "TotalCopheneticIndex"
     "TreeDist"
     "biocthis"
