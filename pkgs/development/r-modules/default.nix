@@ -966,6 +966,7 @@ let
     "Quartet"
     "ShinyQuickStarter"
     "TIN"
+    "cfdnakit"
     "TotalCopheneticIndex"
     "TreeDist"
     "biocthis"
