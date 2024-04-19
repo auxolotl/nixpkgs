@@ -967,6 +967,7 @@ let
     "ShinyQuickStarter"
     "TIN"
     "cfdnakit"
+    "CaDrA"
     "TotalCopheneticIndex"
     "TreeDist"
     "biocthis"
