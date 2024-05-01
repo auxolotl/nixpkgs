@@ -3,7 +3,7 @@
 , version
 , suffix ? ""
 , hash ? null
-, src ? fetchFromGitHub { owner = "NixOS"; repo = "nix"; rev = version; inherit hash; }
+, src ? fetchFromGitHub { owner = "auxolotl"; repo = "nix"; rev = version; inherit hash; }
 , patches ? [ ]
 , maintainers ? with lib.maintainers; [ eelco lovesegfault artturin ma27 ]
 }@args:
