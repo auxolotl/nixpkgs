@@ -2781,6 +2781,10 @@ with pkgs;
 
   ripes = qt6Packages.callPackage ../applications/emulators/ripes { };
 
+  rmg-wayland = callPackage ../by-name/rm/rmg/package.nix {
+    withWayland = true;
+  };
+
   rpcemu = callPackage ../applications/emulators/rpcemu { };
 
   ruffle = callPackage ../applications/emulators/ruffle { };
@@ -4772,8 +4776,6 @@ with pkgs;
 
   wob = callPackage ../tools/wayland/wob { };
 
-  wpaperd = callPackage ../tools/wayland/wpaperd { };
-
   wshowkeys = callPackage ../tools/wayland/wshowkeys { };
 
   wtype = callPackage ../tools/wayland/wtype { };
@@ -4857,8 +4859,6 @@ with pkgs;
   csvtool = callPackage ../development/ocaml-modules/csv/csvtool.nix { };
 
   csv2latex = callPackage ../tools/misc/csv2latex { };
-
-  csvq = callPackage ../development/tools/csvq { };
 
   csvs-to-sqlite = callPackage ../tools/misc/csvs-to-sqlite { };
 
@@ -13950,7 +13950,9 @@ with pkgs;
 
   tuptime = callPackage ../tools/system/tuptime { };
 
-  turbo = callPackage ../tools/misc/turbo {
+  turbo = callPackage ../tools/misc/turbo/wrapper.nix { };
+
+  turbo-unwrapped = callPackage ../tools/misc/turbo {
     inherit (darwin.apple_sdk_11_0.frameworks) IOKit CoreServices CoreFoundation;
   };
 
@@ -24337,14 +24339,6 @@ with pkgs;
       hash = "sha256-kxyb5b8dfI+um33BV4KLfu6HTiPH8ktEun7/a0g2MSw=";
     };
   });
-
-  SDL2_mixer = callPackage ../development/libraries/SDL2_mixer {
-    inherit (darwin.apple_sdk.frameworks) CoreServices AudioUnit AudioToolbox;
-  };
-  # SDL2_mixer_2_0 pinned for lzwolf
-  SDL2_mixer_2_0 = callPackage ../development/libraries/SDL2_mixer/2_0.nix { };
-
-  SDL2_net = callPackage ../development/libraries/SDL2_net { };
 
   SDL2_gfx = callPackage ../development/libraries/SDL2_gfx { };
 
