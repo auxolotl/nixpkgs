@@ -35,7 +35,7 @@ jobs:
 
       - name: Fetch upstream nixpkgs
         run: |
-          git origin add fork https://github.com/NixOS/nixpkgs.git
+          git remote add fork https://github.com/NixOS/nixpkgs.git
           git fetch fork "$CURRENT_BRANCH":"$NIXPKGS_BRANCH"
 
       - name: Merge commits
