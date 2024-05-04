@@ -60,6 +60,6 @@ jobs:
             gh pr create \
               --base "$CURRENT_BRANCH" \
               --head "$PR_BRANCH" \
-              --title: "sync with nixpkgs/$CURRENT_BRANCH $(date '+%Y %m %d')" \
+              --title "sync with nixpkgs/$CURRENT_BRANCH $(date '+%Y %m %d')" \
               --fill
           fi
