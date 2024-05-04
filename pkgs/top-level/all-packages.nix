@@ -28351,8 +28351,6 @@ with pkgs;
 
   ananicy-cpp = callPackage ../misc/ananicy-cpp { };
 
-  ananicy-rules-cachyos = callPackage ../misc/ananicy-rules-cachyos { };
-
   andagii = callPackage ../data/fonts/andagii { };
 
   andika = callPackage ../data/fonts/andika { };
@@ -40887,10 +40885,8 @@ with pkgs;
     name = "bsd-setup-hook";
   } ../os-specific/bsd/setup-hook.sh;
 
-  freebsd = callPackage ../os-specific/bsd/freebsd { };
-  freebsdCross = callPackage ../os-specific/bsd/freebsd {
-    stdenv = crossLibcStdenv;
-  };
+  inherit (callPackage ../os-specific/bsd/freebsd { })
+    freebsd freebsdCross;
 
   netbsd = callPackage ../os-specific/bsd/netbsd { };
   netbsdCross = callPackage ../os-specific/bsd/netbsd {
