@@ -63,3 +63,5 @@ jobs:
               --title "sync with nixpkgs/$CURRENT_BRANCH $(date '+%Y %m %d')" \
               --fill
           fi
+        env:
+          GH_TOKEN: ${{ github.token }}
