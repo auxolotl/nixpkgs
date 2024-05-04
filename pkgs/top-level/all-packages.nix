@@ -7453,8 +7453,6 @@ with pkgs;
 
   dorkscout = callPackage ../tools/security/dorkscout { };
 
-  downonspot = callPackage ../applications/misc/downonspot { };
-
   sl1-to-photon = python3Packages.callPackage ../applications/misc/sl1-to-photon { };
 
   drive = callPackage ../applications/networking/drive { };
@@ -26582,9 +26580,7 @@ with pkgs;
   };
 
   radicale2 = callPackage ../servers/radicale/2.x.nix { };
-  radicale3 = callPackage ../servers/radicale/3.x.nix { };
-
-  radicale = radicale3;
+  radicale3 = radicale;
 
   qcal = callPackage ../tools/networking/qcal/default.nix { };
 
