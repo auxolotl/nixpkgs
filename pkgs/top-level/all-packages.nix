@@ -8923,8 +8923,6 @@ with pkgs;
 
   haste-server = callPackage ../servers/haste-server { };
 
-  hatch = python3Packages.callPackage ../development/tools/hatch { };
-
   hal-hardware-analyzer = libsForQt5.callPackage ../applications/science/electronics/hal-hardware-analyzer {
     stdenv = if stdenv.isDarwin then darwin.apple_sdk_11_0.stdenv else stdenv;
   };
@@ -31879,8 +31877,6 @@ with pkgs;
 
   waylevel = callPackage ../tools/misc/waylevel { };
 
-  wbg = callPackage ../applications/misc/wbg { };
-
   i3 = callPackage ../applications/window-managers/i3 {
     xcb-util-cursor = if stdenv.isDarwin then xcb-util-cursor-HEAD else xcb-util-cursor;
   };
@@ -32200,6 +32196,7 @@ with pkgs;
 
   inherit (callPackage ../applications/networking/cluster/k3s {
     buildGoModule = buildGo121Module;
+    go = go_1_21;
   }) k3s_1_26 k3s_1_27 k3s_1_28 k3s_1_29;
   k3s = k3s_1_29;
 
