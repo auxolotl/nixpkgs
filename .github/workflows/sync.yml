@@ -1,0 +1,67 @@
+name: Sync with nixpkgs
+
+on:
+  schedule:
+     - cron: '0 * * * *' # every hour
+  workflow_dispatch:
+
+jobs:
+  sync:
+    name: Fetch & sync
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    env:
+      CURRENT_BRANCH: ${{ github.ref_name }}
+      NIXPKGS_BRANCH: nixpkgs-${{ github.ref_name }}
+      PR_BRANCH: merge-nixpkgs-${{ github.ref_name }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git user info
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Create new branch
+        run: |
+          git switch -c "$PR_BRANCH"
+
+      - name: Fetch upstream nixpkgs
+        run: |
+          git remote add fork https://github.com/NixOS/nixpkgs.git
+          git fetch fork "$CURRENT_BRANCH":"$NIXPKGS_BRANCH"
+
+      - name: Merge commits
+        run: |
+          git merge "$NIXPKGS_BRANCH"
+
+      - name: Push to branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! git diff --color=always --exit-code origin/"$CURRENT_BRANCH"; then
+            git fetch origin "$PR_BRANCH" || true
+            git push --force-with-lease -u origin "$PR_BRANCH"
+          fi
+
+      - name: Create pull request if needed
+        run: |
+          open_prs="$(gh pr list --base "$CURRENT_BRANCH" --head "$PR_BRANCH" | wc -l)"
+          if [ "$open_prs" -eq 0 ]; then
+            gh pr create \
+              --base "$CURRENT_BRANCH" \
+              --head "$PR_BRANCH" \
+              --title "sync with nixpkgs/$CURRENT_BRANCH $(date '+%Y %m %d')" \
+              --fill
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}

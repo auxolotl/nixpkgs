@@ -1434,13 +1434,18 @@ with pkgs;
     name = "find-xml-catalogs-hook";
   } ../build-support/setup-hooks/find-xml-catalogs.sh;
 
-  wrapGAppsHook = callPackage ../build-support/setup-hooks/wrap-gapps-hook {
-    makeWrapper = makeBinaryWrapper;
+  wrapGAppsHook3 = wrapGAppsNoGuiHook.override {
+    isGraphical = true;
   };
 
-  wrapGAppsHook4 = wrapGAppsHook.override { gtk3 = __splicedPackages.gtk4; };
+  wrapGAppsHook4 = wrapGAppsNoGuiHook.override {
+    isGraphical = true;
+    gtk3 = __splicedPackages.gtk4;
+  };
 
-  wrapGAppsNoGuiHook = wrapGAppsHook.override { isGraphical = false; };
+  wrapGAppsNoGuiHook = callPackage ../build-support/setup-hooks/wrap-gapps-hook {
+    makeWrapper = makeBinaryWrapper;
+  };
 
   separateDebugInfo = makeSetupHook {
     name = "separate-debug-info-hook";
@@ -3393,8 +3398,6 @@ with pkgs;
 
   bitwise = callPackage ../tools/misc/bitwise { };
 
-  blanket = callPackage ../applications/audio/blanket { };
-
   blisp = darwin.apple_sdk_11_0.callPackage ../development/embedded/blisp {
     inherit (darwin.apple_sdk_11_0.frameworks) IOKit;
   };
@@ -4429,8 +4432,6 @@ with pkgs;
   buildtorrent = callPackage ../tools/misc/buildtorrent { };
 
   bundletool = callPackage ../development/tools/bundletool { };
-
-  bustle = haskellPackages.bustle;
 
   bwm_ng = callPackage ../tools/networking/bwm-ng { };
 
@@ -9256,10 +9257,7 @@ with pkgs;
 
   internetarchive = with python3Packages; toPythonApplication internetarchive;
 
-  invidious = callPackage ../servers/invidious {
-    # normally video.js is downloaded at build time
-    videojs = callPackage ../servers/invidious/videojs.nix { };
-  };
+  invidious = callPackage ../servers/invidious { };
 
   invoice2data  = callPackage ../tools/text/invoice2data  { };
 
@@ -14617,9 +14615,9 @@ with pkgs;
   valum = callPackage ../development/web/valum { };
 
   inherit (callPackages ../servers/varnish { })
-    varnish60 varnish74;
+    varnish60 varnish74 varnish75;
   inherit (callPackages ../servers/varnish/packages.nix { })
-    varnish60Packages varnish74Packages;
+    varnish60Packages varnish74Packages varnish75Packages;
 
   varnishPackages = varnish74Packages;
   varnish = varnishPackages.varnish;
@@ -18097,7 +18095,6 @@ with pkgs;
   electron-source = callPackage ../development/tools/electron { };
 
   inherit (callPackages ../development/tools/electron/binary { })
-    electron-bin
     electron_24-bin
     electron_27-bin
     electron_28-bin
@@ -18108,6 +18105,7 @@ with pkgs;
   electron_28 = if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_28 then electron-source.electron_28 else electron_28-bin;
   electron_29 = if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_29 then electron-source.electron_29 else electron_29-bin;
   electron = electron_29;
+  electron-bin = electron_29-bin;
 
   autobuild = callPackage ../development/tools/misc/autobuild { };
 
@@ -18647,15 +18645,7 @@ with pkgs;
 
   doclifter = callPackage ../development/tools/misc/doclifter { };
 
-  docutils = with python3Packages; toPythonApplication (
-    docutils.overridePythonAttrs (attrs: rec {
-      version = "0.20.1";
-      src = attrs.src.override {
-        inherit version;
-        hash = "sha256-8IpOJ2w6FYOobc4+NKuj/gTQK7ot1R7RYQYkToqSPjs=";
-      };
-    })
-  );
+  docutils = with python3Packages; toPythonApplication docutils;
 
   doctl = callPackage ../development/tools/doctl { };
 
@@ -19216,7 +19206,7 @@ with pkgs;
 
   modd = callPackage ../development/tools/modd { };
 
-  mold = callPackage ../development/tools/mold {
+  mold = callPackage ../by-name/mo/mold/package.nix {
     stdenv = if stdenv.isDarwin then overrideSDK stdenv "11.0" else stdenv;
     tbb = tbb_2021_11;
   };
@@ -21251,7 +21241,7 @@ with pkgs;
 
   gst_all_1 = recurseIntoAttrs(callPackage ../development/libraries/gstreamer {
     callPackage = newScope (gst_all_1 // { libav = pkgs.ffmpeg-headless; });
-    inherit (darwin.apple_sdk.frameworks) AudioToolbox AVFoundation Cocoa CoreFoundation CoreMedia CoreServices CoreVideo DiskArbitration Foundation IOKit MediaToolbox OpenGL Security VideoToolbox;
+    inherit (darwin.apple_sdk.frameworks) AudioToolbox AVFoundation Cocoa CoreFoundation CoreMedia CoreServices CoreVideo DiskArbitration Foundation IOKit MediaToolbox OpenGL Security SystemConfiguration VideoToolbox;
   });
 
   gusb = callPackage ../development/libraries/gusb { };
@@ -24999,7 +24989,7 @@ with pkgs;
   whereami = callPackage ../development/libraries/whereami { };
 
   wildmidi = callPackage ../development/libraries/wildmidi {
-    inherit (darwin.apple_sdk.frameworks) OpenAL;
+    inherit (darwin.apple_sdk.frameworks) OpenAL CoreAudioKit;
   };
 
   wiredtiger = callPackage ../development/libraries/wiredtiger { };
@@ -27171,9 +27161,7 @@ with pkgs;
 
   fatrace = callPackage ../os-specific/linux/fatrace { };
 
-  ffado = libsForQt5.callPackage ../os-specific/linux/ffado {
-    inherit (linuxPackages) kernel;
-  };
+  ffado = libsForQt5.callPackage ../os-specific/linux/ffado { };
   libffado = ffado;
 
   fbterm = callPackage ../os-specific/linux/fbterm { };
@@ -31273,8 +31261,6 @@ with pkgs;
 
   fractal = callPackage ../applications/networking/instant-messengers/fractal { };
 
-  fragments = callPackage ../applications/networking/p2p/fragments { };
-
   freedv = callPackage ../applications/radio/freedv {
     inherit (darwin.apple_sdk.frameworks) AppKit AVFoundation Cocoa CoreMedia;
     codec2 = codec2.override {
@@ -31317,10 +31303,19 @@ with pkgs;
 
   pulseaudio-module-xrdp = callPackage ../applications/networking/remote/xrdp/pulseaudio-module-xrdp { };
 
-  freerdp = callPackage ../applications/networking/remote/freerdp {
-    inherit (darwin.apple_sdk.frameworks) AudioToolbox AVFoundation Carbon Cocoa CoreMedia;
-    inherit (gst_all_1) gstreamer gst-plugins-base gst-plugins-good;
-  };
+  inherit
+    ({
+      freerdp = callPackage ../applications/networking/remote/freerdp {
+        inherit (darwin.apple_sdk.frameworks) AudioToolbox AVFoundation Carbon Cocoa CoreMedia;
+        inherit (gst_all_1) gstreamer gst-plugins-base gst-plugins-good;
+      };
+      freerdp3 = callPackage ../applications/networking/remote/freerdp/3.nix {
+        inherit (darwin.apple_sdk.frameworks) AudioToolbox AVFoundation Carbon Cocoa CoreMedia;
+      };
+    })
+    freerdp
+    freerdp3
+    ;
 
   freerdpUnstable = freerdp;
 
@@ -33669,10 +33664,6 @@ with pkgs;
 
   oranda = callPackage ../applications/misc/oranda { };
 
-  orca = python3Packages.callPackage ../applications/misc/orca {
-    inherit pkg-config;
-  };
-
   orca-c = callPackage ../applications/audio/orca-c { };
 
   organicmaps = qt6Packages.callPackage ../applications/misc/organicmaps { };
@@ -35322,7 +35313,7 @@ with pkgs;
   # so expect breakage. use wrapNeovim instead if you want a stable alternative
   wrapNeovimUnstable = callPackage ../applications/editors/neovim/wrapper.nix { };
   wrapNeovim = neovim-unwrapped: lib.makeOverridable (neovimUtils.legacyWrapper neovim-unwrapped);
-  neovim-unwrapped = callPackage ../applications/editors/neovim {
+  neovim-unwrapped = callPackage ../by-name/ne/neovim-unwrapped/package.nix {
     CoreServices =  darwin.apple_sdk.frameworks.CoreServices;
     lua = if lib.meta.availableOn stdenv.hostPlatform luajit then luajit else lua5_1;
   };
@@ -35340,8 +35331,6 @@ with pkgs;
   gnvim-unwrapped = callPackage ../applications/editors/neovim/gnvim { };
 
   gnvim = callPackage ../applications/editors/neovim/gnvim/wrapper.nix { };
-
-  neovide = callPackage ../applications/editors/neovim/neovide { };
 
   neovim-remote = callPackage ../applications/editors/neovim/neovim-remote.nix { };
 
@@ -37804,6 +37793,7 @@ with pkgs;
     gnome43Extensions
     gnome44Extensions
     gnome45Extensions
+    gnome46Extensions
   ;
 
   gnome-connections = callPackage ../desktops/gnome/apps/gnome-connections { };
@@ -40077,7 +40067,7 @@ with pkgs;
   rfc-bibtex = callPackage ../tools/typesetting/rfc-bibtex { };
 
   pick-colour-picker = python3Packages.callPackage ../applications/graphics/pick-colour-picker {
-    inherit glib gtk3 gobject-introspection wrapGAppsHook;
+    inherit glib gtk3 gobject-introspection wrapGAppsHook3;
   };
 
   rpl = callPackage ../tools/text/rpl { };
