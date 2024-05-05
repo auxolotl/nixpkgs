@@ -6564,6 +6564,8 @@ self: super: with self; {
 
   pa-ringbuffer = callPackage ../development/python-modules/pa-ringbuffer { };
 
+  lib4sbom = callPackage ../development/python-modules/lib4sbom { };
+
   libais = callPackage ../development/python-modules/libais { };
 
   libarchive-c = callPackage ../development/python-modules/libarchive-c {
@@ -8712,10 +8714,9 @@ self: super: with self; {
 
   nfcpy = callPackage ../development/python-modules/nfcpy { };
 
-  nftables = toPythonModule (pkgs.nftables.override {
-    python3 = python;
-    withPython = true;
-  });
+  nftables = callPackage ../os-specific/linux/nftables/python.nix {
+    inherit (pkgs) nftables;
+  };
 
   nh3 = callPackage ../development/python-modules/nh3 { };
 
