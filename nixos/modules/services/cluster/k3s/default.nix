@@ -119,20 +119,21 @@ in
     registries = mkOption {
       type = types.nullOr yaml.type;
       default = null;
-      example = {
-        mirrors."docker.io".endpoint = ["https://registry.example.com:5000"];
-        configs."registry.example.com:5000" = {
-          auth = {
-            username = "";
-            password = "";
+      example = literalExpression ''
+        {
+          mirrors."docker.io".endpoint = ["https://registry.example.com:5000"];
+          configs."registry.example.com:5000" = {
+            auth = {
+              username = "";
+              password = "";
+            };
+            tls = {
+              cert_file = ./path;
+              key_file = ./path;
+              ca_file = ./path;
+            };
           };
-          tls = {
-            cert_file = ./path;
-            key_file = ./path;
-            ca_file = ./path;
-          };
-        };
-      };
+        }'';
       description = "[Private registry configuration](https://docs.k3s.io/installation/private-registry).";
     };
   };
