@@ -30662,10 +30662,6 @@ with pkgs;
 
   expenses = callPackage ../applications/misc/expenses { };
 
-  furnace = callPackage ../applications/audio/furnace {
-    inherit (darwin.apple_sdk.frameworks) Cocoa;
-  };
-
   furtherance = callPackage ../applications/misc/furtherance { };
 
   gigalixir = callPackage ../tools/misc/gigalixir { };
@@ -37473,8 +37469,8 @@ with pkgs;
 
   tcl2048 = callPackage ../games/tcl2048 { };
 
-  the-powder-toy = callPackage ../games/the-powder-toy {
-    lua = lua5_1;
+  the-powder-toy = callPackage ../by-name/th/the-powder-toy/package.nix {
+    lua = lua5_2;
     inherit (darwin.apple_sdk.frameworks) Cocoa;
   };
 
