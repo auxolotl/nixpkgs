@@ -420,8 +420,6 @@ with pkgs;
 
   castget = callPackage ../applications/networking/feedreaders/castget { };
 
-  castxml = callPackage ../development/tools/castxml { };
-
   catatonit = callPackage ../applications/virtualization/catatonit { };
 
   catppuccin-catwalk = callPackage ../development/tools/misc/catppuccin-catwalk { };
@@ -9582,8 +9580,6 @@ with pkgs;
   };
 
   kdoctor = callPackage ../development/tools/kdoctor { };
-
-  kdbplus = pkgsi686Linux.callPackage ../applications/misc/kdbplus { };
 
   kdigger = callPackage ../tools/security/kdigger { };
 
@@ -23803,10 +23799,6 @@ with pkgs;
 
   opensupaplex = callPackage ../games/opensupaplex { };
 
-  openturns = callPackage ../development/libraries/openturns {
-      inherit (darwin.apple_sdk.frameworks) Accelerate;
-  };
-
   open-wbo = callPackage ../applications/science/logic/open-wbo { };
 
   openwsman = callPackage ../development/libraries/openwsman { };
@@ -29718,10 +29710,6 @@ with pkgs;
 
   appgate-sdp = callPackage ../applications/networking/appgate-sdp { };
 
-  apostrophe = callPackage ../applications/editors/apostrophe {
-    pythonPackages = python3Packages;
-  };
-
   ardour = callPackage ../applications/audio/ardour { };
   ardour_7 = callPackage ../applications/audio/ardour/7.nix { };
 
@@ -30674,8 +30662,6 @@ with pkgs;
 
   expenses = callPackage ../applications/misc/expenses { };
 
-  flowtime = callPackage ../applications/misc/flowtime { };
-
   furnace = callPackage ../applications/audio/furnace {
     inherit (darwin.apple_sdk.frameworks) Cocoa;
   };
@@ -31412,6 +31398,8 @@ with pkgs;
   );
 
   manuskript = libsForQt5.callPackage ../applications/editors/manuskript { };
+
+  minari = python3Packages.toPythonApplication python3Packages.minari;
 
   mindforger = libsForQt5.callPackage ../applications/editors/mindforger { };
 
@@ -35550,7 +35538,7 @@ with pkgs;
 
   webcamoid = libsForQt5.callPackage ../applications/video/webcamoid { };
 
-  webcord = callPackage ../by-name/we/webcord/package.nix { electron = electron_29; };
+  webcord = callPackage ../by-name/we/webcord/package.nix { electron = electron_30; };
 
   webex = callPackage ../applications/networking/instant-messengers/webex { };
 
