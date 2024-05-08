@@ -1302,7 +1302,9 @@ with pkgs;
 
   makeBinaryWrapper = callPackage ../build-support/setup-hooks/make-binary-wrapper { };
 
-  compressFirmwareXz = callPackage ../build-support/kernel/compress-firmware-xz.nix { };
+  compressFirmwareXz = callPackage ../build-support/kernel/compress-firmware.nix { type = "xz"; };
+
+  compressFirmwareZstd = callPackage ../build-support/kernel/compress-firmware.nix { type = "zstd"; };
 
   makeModulesClosure = { kernel, firmware, rootModules, allowMissing ? false }:
     callPackage ../build-support/kernel/modules-closure.nix {
@@ -25311,36 +25313,6 @@ with pkgs;
     texLive = null;
   };
 
-  ## DEPRECATED, will be removed in a future release
-
-  clwrapperFunction = callPackage ../development/lisp-modules-obsolete/clwrapper;
-
-  wrapLisp_old = lisp: clwrapperFunction { inherit lisp; };
-
-  lispPackagesFor = clwrapper: callPackage ../development/lisp-modules-obsolete/lisp-packages.nix {
-    inherit clwrapper;
-  };
-
-  lispPackages = quicklispPackages //
-    (lispPackagesFor (wrapLisp_old sbcl)) // { __attrsFailEvaluation = true; };
-
-  quicklispPackagesFor = clwrapper: callPackage ../development/lisp-modules-obsolete/quicklisp-to-nix.nix {
-    inherit clwrapper;
-  } // { __attrsFailEvaluation = true; };
-  quicklispPackagesClisp = dontRecurseIntoAttrs (quicklispPackagesFor (wrapLisp_old clisp));
-  quicklispPackagesSBCL = dontRecurseIntoAttrs (quicklispPackagesFor (wrapLisp_old sbcl));
-  quicklispPackagesECL = dontRecurseIntoAttrs (quicklispPackagesFor (wrapLisp_old ecl));
-  quicklispPackagesCCL = dontRecurseIntoAttrs (quicklispPackagesFor (wrapLisp_old ccl));
-  quicklispPackagesABCL = dontRecurseIntoAttrs (quicklispPackagesFor (wrapLisp_old abcl));
-  quicklispPackagesGCL = dontRecurseIntoAttrs (quicklispPackagesFor (wrapLisp_old gcl));
-  quicklispPackages = quicklispPackagesSBCL;
-
-  # Alternative lisp-modules implementation
-  lispPackages_new = callPackage ../development/lisp-modules-new-obsolete/lisp-packages.nix {}
-  // { __attrsFailEvaluation = true; };
-
-  ## End of DEPRECATED
-
   wrapLisp = callPackage ../development/lisp-modules/nix-cl.nix {};
 
   # Armed Bear Common Lisp
@@ -30166,6 +30138,8 @@ with pkgs;
   cligh = python3Packages.callPackage ../development/tools/github/cligh { };
 
   clight = callPackage ../applications/misc/clight { };
+
+  clight-gui = libsForQt5.callPackage ../applications/misc/clight/clight-gui.nix { };
 
   clightd = callPackage ../applications/misc/clight/clightd.nix { };
 
