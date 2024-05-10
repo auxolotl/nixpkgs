@@ -12940,8 +12940,6 @@ with pkgs;
 
   shout = nodePackages.shout;
 
-  showmethekey = callPackage ../applications/video/showmethekey { };
-
   shrikhand = callPackage ../data/fonts/shrikhand { };
 
   shunit2 = callPackage ../tools/misc/shunit2 { };
@@ -20565,8 +20563,6 @@ with pkgs;
   digiham = callPackage ../applications/radio/digiham { };
 
   directfb = callPackage ../development/libraries/directfb { };
-
-  discord-gamesdk = callPackage ../development/libraries/discord-gamesdk { };
 
   discord-rpc = callPackage ../development/libraries/discord-rpc {
     inherit (darwin.apple_sdk.frameworks) AppKit;
@@ -31451,8 +31447,6 @@ with pkgs;
   goodvibes = callPackage ../applications/audio/goodvibes { };
 
   googleearth-pro = libsForQt5.callPackage ../applications/misc/googleearth-pro { };
-
-  google-chrome = callPackage ../applications/networking/browsers/google-chrome { };
 
   go-graft = callPackage ../applications/networking/go-graft { };
 
