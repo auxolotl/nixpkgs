@@ -2625,6 +2625,8 @@ self: super: with self; {
 
   cu2qu = callPackage ../development/python-modules/cu2qu { };
 
+  customtkinter = callPackage ../development/python-modules/customtkinter { };
+
   cucumber-tag-expressions = callPackage ../development/python-modules/cucumber-tag-expressions { };
 
   cufflinks = callPackage ../development/python-modules/cufflinks { };
@@ -7691,6 +7693,8 @@ self: super: with self; {
 
   mpd2 = callPackage ../development/python-modules/mpd2 { };
 
+  mpegdash = callPackage ../development/python-modules/mpegdash { };
+
   mpi4py = callPackage ../development/python-modules/mpi4py { };
 
   mpldatacursor = callPackage ../development/python-modules/mpldatacursor { };
@@ -11154,8 +11158,6 @@ self: super: with self; {
   pyiqvia = callPackage ../development/python-modules/pyiqvia { };
 
   pyisbn = callPackage ../development/python-modules/pyisbn { };
-
-  pyjet = callPackage ../development/python-modules/pyjet { };
 
   pyjks = callPackage ../development/python-modules/pyjks { };
 
