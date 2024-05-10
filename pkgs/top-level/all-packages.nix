@@ -540,8 +540,6 @@ with pkgs;
 
   coolercontrol = recurseIntoAttrs (callPackage ../applications/system/coolercontrol { });
 
-  coost = callPackage ../development/libraries/coost { };
-
   confetty = callPackage ../applications/misc/confetty { };
 
   confy = callPackage ../applications/misc/confy { };
@@ -5548,10 +5546,7 @@ with pkgs;
   hypr = callPackage ../applications/window-managers/hyprwm/hypr {
     cairo = cairo.override { xcbSupport = true; };  };
 
-  hyprland = callPackage ../applications/window-managers/hyprwm/hyprland {
-    wlroots-hyprland = callPackage ../applications/window-managers/hyprwm/hyprland/wlroots.nix { };
-    udis86-hyprland = callPackage ../applications/window-managers/hyprwm/hyprland/udis86.nix { };
-  };
+  hyprland = callPackage ../applications/window-managers/hyprwm/hyprland { };
 
   hyprland-autoname-workspaces = callPackage ../applications/misc/hyprland-autoname-workspaces { };
 
@@ -5661,7 +5656,7 @@ with pkgs;
 
   klipper = callPackage ../servers/klipper { };
 
-  klipper-firmware = callPackage ../servers/klipper/klipper-firmware.nix { gcc-arm-embedded = gcc-arm-embedded-11; };
+  klipper-firmware = callPackage ../servers/klipper/klipper-firmware.nix { gcc-arm-embedded = gcc-arm-embedded-13; };
 
   klipper-flash = callPackage ../servers/klipper/klipper-flash.nix { };
 
